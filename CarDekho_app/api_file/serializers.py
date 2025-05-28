@@ -33,11 +33,18 @@ from ..models import Carlist,Showroomlist,Review
 
 
 
+# class ReviewSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Review
+#         exclude = ['car']
+#         # fields = ['id','name','description','active','chassinumber','price']
+#         fields = "__all__"
 class ReviewSerializer(serializers.ModelSerializer):
+    apiuser = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Review
-        fields = "__all__"
-
+        fields = ['id', 'apiuser', 'rating', 'comment', 'car', 'created', 'updated']
 
 class CarSerializer(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()

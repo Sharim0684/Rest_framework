@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'CarDekho_app',  # Custom app for CarDekho
     'rest_framework',  # For API development
+    'rest_framework.authtoken',  # For token authentication
+    'user_app',  # Custom app for user management
 ]
 
 MIDDLEWARE = [
@@ -127,10 +129,47 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.BasicAuthentication', 
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ]
+
+
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication', 
-        'rest_framework.authentication.SessionAuthentication',
-    ]
+    'rest_framework.authentication.TokenAuthentication',
+],
+# 'DEFAULT_PERMISSION_CLASSES': [
+#     'rest_framework.permissions.IsAuthenticated',
+# ],
+
+
+
+# 'DeFAULT_PAGINATION_CLASS':[
+#     'rest_framework.simplejwt.authentication.JWTAuthentication',
+# ]
+
+
+     # if you want to throttle specific views, you can set it in the view itself
+
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    #     'rest_framework.throttling.ScopedRateThrottle',
+    # ],
+
+
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/minute',  # Anonymous users can make 3 requests per minute
+        'user': '5/minute',  # Authenticated users can make 5 requests per minute
+        'throttling_for_review_details':'5/minute',
+        'throttling_for_review_list': '1/day',
+        'review_list_scope': '3/day',  # Custom scope for review list
+
+    },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1,
 }
+
 
 
